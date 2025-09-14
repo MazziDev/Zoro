@@ -1,9 +1,26 @@
 import { Section } from '../ui/Section';
+// Import estático das imagens para que o bundler (Vite) gere URLs corretas com hash.
+// Caminho absoluto "/src/..." quebra no build (GitHub Pages) porque esses arquivos
+// são processados e movidos para /Zoro/assets/ com nomes com hash. Imports resolvem isso.
+import z1 from '../../assets/images/zoro1.jpg';
+import z2 from '../../assets/images/zoro2.jpg';
+import z3 from '../../assets/images/zoro3.jpg';
+import z4 from '../../assets/images/zoro4.jpg';
+import z5 from '../../assets/images/zoro5.jpg';
+import z6 from '../../assets/images/zoro6.jpg';
+import z7 from '../../assets/images/zoro7.jpg';
+import z8 from '../../assets/images/zoro8.jpg';
 
-const images = Array.from({ length: 8 }).map((_, i) => ({
-  src: `/src/assets/images/zoro${i + 1}.jpg`,
-  alt: `Imagem ${i + 1} de Zoro` // Ajustar manualmente depois com descrições reais
-}));
+const images = [
+  { src: z1, alt: 'Zoro em pose de batalha 1' },
+  { src: z2, alt: 'Zoro concentrado 2' },
+  { src: z3, alt: 'Zoro atacando 3' },
+  { src: z4, alt: 'Zoro com três espadas 4' },
+  { src: z5, alt: 'Zoro preparando técnica 5' },
+  { src: z6, alt: 'Zoro após batalha 6' },
+  { src: z7, alt: 'Zoro foco intenso 7' },
+  { src: z8, alt: 'Zoro silhueta dramática 8' }
+];
 
 export function Gallery() {
   return (
