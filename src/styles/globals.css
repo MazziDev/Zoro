@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #050607;
+  --color-bg-alt: #0b0f10;
+  --color-panel: #101718;
+  --color-accent: #27d07d;
+  --color-accent-glow: #3bff9d;
+  --color-accent-muted: #1a6140;
+  --color-text: #e5f6ef;
+  --color-text-dim: #99b5aa;
+}
+
+/* Evitar duplo scrollbar: usar min-height e permitir que body expanda naturalmente */
+html, body { min-height:100%; }
+#root { min-height:100%; }
+
+/* Removido scroll-behavior global para evitar jitter quando combinado com animações/framer + smoothScrollTo. */
+
+body {
+  background: radial-gradient(circle at 20% 20%, rgba(39,208,125,0.08), transparent 60%), #050607;
+  font-feature-settings: 'liga' 1, 'kern' 1;
+  overflow-x: hidden; /* centralizado: evita wrapper adicional criar segundo contexto etiquetado */
+}
+
+/* Estado de lock para evitar duplo scrollbar e manter layout estável */
+html.scroll-lock, body.scroll-lock { overscroll-behavior: contain; }
+/* Caso queira compensar largura do scrollbar futuramente, poderíamos calcular e aplicar padding-right aqui. */
+
+/* Scrollbar custom */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #0b0f10; }
+::-webkit-scrollbar-thumb { background: #1a6140; border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: #27d07d; }
+
+/* Reduced motion: neutraliza animações intensas mantendo opacidades estáveis */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* High contrast mode utility (manual toggle a implementar depois) */
+.high-contrast body, body.high-contrast {
+  --color-bg: #000000;
+  --color-panel: #0d1512;
+  --color-text: #ffffff;
+  --color-text-dim: #d2e5dc;
+}
+
+/* Utility layer */
+@layer utilities {
+  .text-gradient-zoro { @apply bg-clip-text text-transparent bg-gradient-to-r from-zoro-200 via-zoro-400 to-zoro-600; }
+  .border-glow { box-shadow: 0 0 0 1px rgba(39,208,125,0.4), 0 0 18px -2px rgba(39,208,125,0.5); }
+  .focus-ring { @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-zoro-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black; }
+  .focus-outline-only:focus-visible { outline: 2px solid theme('colors.zoro.400'); outline-offset: 2px; }
+  .no-anchor { overflow-anchor: none; }
+  .bg-radial-accent { background: radial-gradient(circle at 50% 50%, rgba(39,208,125,0.18), transparent 70%); }
+}
+
+.fade-edge-top { mask-image: linear-gradient(to bottom, transparent, black 40%); }
+.fade-edge-bottom { mask-image: linear-gradient(to top, transparent, black 40%); }
+
+/* ================= Epic Effects Keyframes ================= */
+@keyframes glowPulse { 0%,100% { text-shadow: 0 0 6px rgba(39,208,125,0.35), 0 0 26px rgba(39,208,125,0.15); filter: brightness(1); } 50% { text-shadow: 0 0 10px rgba(39,208,125,0.55),0 0 40px rgba(39,208,125,0.32); filter: brightness(1.08); } }
+@keyframes energySweep { 0% { transform: translateX(-60%) skewX(-12deg); opacity: 0; } 45% { opacity: .9; } 60% { opacity: .4; } 100% { transform: translateX(160%) skewX(-12deg); opacity: 0; } }
+@keyframes ringPulse { 0% { transform: scale(.2); opacity:.55; } 70% { opacity:.15; } 100% { transform: scale(2.1); opacity:0; } }
+@keyframes swordArc { 0% { stroke-dashoffset: 180; opacity:0; } 10% { opacity:1; } 55% { stroke-dashoffset: 0; opacity:1; } 100% { stroke-dashoffset:0; opacity:0; } }
+@keyframes quoteFadeIn { 0% { opacity:0; transform: translateY(6px); } 100% { opacity:1; transform: translateY(0); } }
+@keyframes hakiFlash { 0% { opacity:0; } 10% { opacity:.8; } 35% { opacity:.15; } 60% { opacity:.35; } 100% { opacity:0; } }
+@keyframes shine { 0% { transform:translateX(-120%) skewX(-20deg); } 100% { transform:translateX(220%) skewX(-20deg); } }
+@keyframes motesDrift { 0% { transform: translateY(0) translateX(0); } 50% { transform: translateY(-12px) translateX(8px); } 100% { transform: translateY(0) translateX(0); } }
+@keyframes meshShimmer { 0% { opacity:0.0; transform: translateX(-10%) skewX(-12deg); } 25% { opacity:.35; } 60% { opacity:.12; } 100% { opacity:0; transform: translateX(25%) skewX(-12deg); } }
+@keyframes slashSecondary { 0% { opacity:0; transform: translateY(0) scaleX(.8); } 10% { opacity:.85; } 55% { opacity:.35; } 100% { opacity:0; transform: translateY(-12px) scaleX(1); } }
+@keyframes pulseBass { 0%,100% { filter: brightness(1) saturate(1); transform: scale(1); } 45% { filter: brightness(1.08) saturate(1.15); transform: scale(1.01); } 55% { filter: brightness(1.1) saturate(1.18); transform: scale(1.012); } }
+@keyframes auraPulse { 0%,100% { transform: scale(0.92); filter: blur(18px) brightness(1); opacity:0.55; } 45% { transform: scale(1.04); filter: blur(22px) brightness(1.08); opacity:0.72; } 70% { opacity:0.48; } }
+@keyframes driftDiag { 0% { transform: translate3d(-6%, -4%, 0) rotate(0deg); } 50% { transform: translate3d(3%, 5%, 0) rotate(180deg); } 100% { transform: translate3d(-6%, -4%, 0) rotate(360deg); } }
+@keyframes moteFloat { 0% { transform: translateY(0) scale(1); } 45% { transform: translateY(-14px) scale(1.05); } 100% { transform: translateY(0) scale(1); } }
+
+
+/* ================= Utilities Epic ================= */
+@layer utilities {
+  .animate-glow-pulse { animation: glowPulse 4.5s ease-in-out infinite; }
+  .animate-energy-sweep { animation: energySweep 7s linear infinite; }
+  .animate-ring-pulse { animation: ringPulse 5.8s ease-out infinite; }
+  .animate-haki-flash { animation: hakiFlash .9s ease-out forwards; }
+  .animate-shine { animation: shine 2.8s ease-in-out infinite; }
+  .animate-sword-arc { animation: swordArc 1.6s ease-out forwards; }
+  .animate-motes-drift { animation: motesDrift 11s ease-in-out infinite; }
+  .animate-mesh-shimmer { animation: meshShimmer 8s linear infinite; }
+  .animate-slash-secondary { animation: slashSecondary 3.8s ease-out infinite; }
+  .animate-pulse-bass { animation: pulseBass 6s ease-in-out infinite; }
+  .animate-aura-pulse { animation: auraPulse 7s ease-in-out infinite; }
+  .animate-drift-diag { animation: driftDiag 26s linear infinite; }
+  .animate-mote-float { animation: moteFloat 10s ease-in-out infinite; }
+}
+
+/* Reduced motion: rely on existing global rule to disable animations */
